@@ -1,0 +1,1 @@
+/Knygynas/autoriai/autorius[@id = /Knygynas/knygos//knyga[kaina = min(/Knygynas/knygos//knyga/kaina)]/autorius/@ref]/pavarde
