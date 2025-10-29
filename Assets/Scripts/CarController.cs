@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -81,7 +82,7 @@ public class CarController : MonoBehaviour
       [Space(10)]
       //The following variable lets you to set up a UI text to display the speed of your car.
       public bool useUI = false;
-      public Text carSpeedText; // Used to store the UI object that is going to show the speed of the car.
+      public TMP_Text carSpeedText; // Used to store the UI object that is going to show the speed of the car.
 
     //SOUNDS
 
