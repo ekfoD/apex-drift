@@ -6078,25 +6078,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 746231488}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &746807163 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3220755495831943328, guid: de5b3604bee43574bb6e29f11bf87c0b, type: 3}
-  m_PrefabInstance: {fileID: 1028075507}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &746807166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 746807163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 017082f30fc244befa9450d5727c305f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  finishUI: {fileID: 1786840743}
-  timer: {fileID: 1757723645}
 --- !u!1 &758764334
 GameObject:
   m_ObjectHideFlags: 0
@@ -6927,8 +6908,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017082f30fc244befa9450d5727c305f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  finishUI: {fileID: 0}
-  timer: {fileID: 0}
+  finishUI: {fileID: 1786840743}
+  timer: {fileID: 1757723645}
 --- !u!65 &820896649
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8691,9 +8672,6 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3220755495831943328, guid: de5b3604bee43574bb6e29f11bf87c0b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 746807166}
     - targetCorrespondingSourceObject: {fileID: 2434361935421822536, guid: de5b3604bee43574bb6e29f11bf87c0b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 820896649}
@@ -9132,6 +9110,10 @@ PrefabInstance:
     - target: {fileID: 8423638790551065702, guid: e0716feb0314d4b0b9f2691d5709d8bd, type: 3}
       propertyPath: m_Name
       value: Driving Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 8423638790551065702, guid: e0716feb0314d4b0b9f2691d5709d8bd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8423638790551065702, guid: e0716feb0314d4b0b9f2691d5709d8bd, type: 3}
       propertyPath: m_TagString
