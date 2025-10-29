@@ -2,23 +2,21 @@ using UnityEngine;
 
 public class AnimationTriggerEnd : MonoBehaviour
 {
-    public Animator targetAnimator; // Drag your figure here in Inspector
-    public string animationName = "YourAnimationName"; // Or parameter name
+    public Transform animatedGroup; // Drag the parent empty object here
+    public string animationName = "Idle";
     
     void OnTriggerEnter(Collider other)
     {
-        // Check if player/car entered
-        if(other.CompareTag("Player")) // Make sure your player has "Player" tag
+        if(other.CompareTag("Player"))
         {
-            // Method 1: Play animation directly
-            targetAnimator.Play(animationName);
-            Debug.Log("ahahaahahah end");
+            // Get all Animators in children
+            Animator[] animators = animatedGroup.GetComponentsInChildren<Animator>();
             
-            // Method 2: Or use trigger parameter
-            // targetAnimator.SetTrigger("StartAnim");
-            
-            // Method 3: Or use bool
-            // targetAnimator.SetBool("isPlaying", true);
+            // Play animation on all of them
+            foreach(Animator anim in animators)
+            {
+                anim.Play(animationName);
+            }
         }
     }
 }
