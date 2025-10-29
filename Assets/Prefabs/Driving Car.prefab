@@ -327,6 +327,7 @@ GameObject:
   - component: {fileID: 6754430261002249619}
   - component: {fileID: 7864127873580718852}
   - component: {fileID: 3204249474222613323}
+  - component: {fileID: 3774393913558518208}
   m_Layer: 0
   m_Name: Driving Car
   m_TagString: Untagged
@@ -414,12 +415,33 @@ MonoBehaviour:
   RRWTireSkid: {fileID: 0}
   useUI: 0
   carSpeedText: {fileID: 0}
-  useSounds: 0
+  useSounds: 1
   carEngineSound: {fileID: 0}
   tireScreechSound: {fileID: 0}
   carSpeed: 0
   isDrifting: 0
   isTractionLocked: 0
+--- !u!65 &3774393913558518208
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8423638790551065702}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.43445626, y: 0.3068921, z: 0.3068921}
+  m_Center: {x: -0.025482118, y: 0.124575466, z: 0}
 --- !u!1 &8564914908369969013
 GameObject:
   m_ObjectHideFlags: 0
