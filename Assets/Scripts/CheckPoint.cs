@@ -18,7 +18,10 @@ public class CheckPoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        vectorPoint = player.transform.position;
-        Destroy(other.gameObject);
+        if(other.gameObject.CompareTag("Checkpoint"))
+        {
+            vectorPoint = player.transform.position;
+            Destroy(other.gameObject);
+        }
     }
 }
