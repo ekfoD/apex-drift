@@ -5,40 +5,49 @@ public class Finish : MonoBehaviour
     [Header("References")]
     public GameObject finishUI; 
     public Timer timer; 
-    
+
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            CheckFinish();
+            var checkpointRespawn = other.GetComponent<CheckpointRespawn>();
+            if (checkpointRespawn != null)
+            {
+                CheckFinish(checkpointRespawn);
+            }
+            else
+            {
+                Debug.LogWarning("Player has no CheckpointRespawn script!");
+            }
         }
     }
-    
-    void CheckFinish()
+
+    void CheckFinish(CheckpointRespawn checkpointRespawn)
     {
-        GameObject[] checkpoints = GameObject.FindGameObjectsWithTag("Checkpoint");
-        
-        if(checkpoints.Length == 0)
+        int visited = checkpointRespawn.VisitedCheckpoints;
+        int total = checkpointRespawn.TotalCheckpoints;
+
+        if (visited >= total)
         {
             Debug.Log("ALL CHECKPOINTS CLEARED - FINISH!");
             FinishRace();
         }
         else
         {
-            Debug.Log("Can't finish! Missing " + checkpoints.Length + " checkpoint(s)");
+            Debug.Log($"Can't finish! Missing {total - visited} checkpoint(s)");
         }
     }
-    
+
     void FinishRace()
     {
         // Stop timer
-        if(timer != null)
+        if (timer != null)
         {
             timer.StopTimer();
         }
-        
+
         // Show finish UI
-        if(finishUI != null)
+        if (finishUI != null)
         {
             finishUI.SetActive(true);
         }

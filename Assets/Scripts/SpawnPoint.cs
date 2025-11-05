@@ -2,15 +2,10 @@ using UnityEngine;
 
 public class SpawnPoint : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public GameObject myCar;
     void Start()
     {
-        
+        myCar.transform.position = transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
