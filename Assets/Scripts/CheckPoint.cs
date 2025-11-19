@@ -52,7 +52,7 @@ public class CheckpointRespawn : MonoBehaviour
     private void ResetToCheckpoint()
     {
         // clear motion so speed/rotation aren't retained
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
         // teleport to checkpoint
