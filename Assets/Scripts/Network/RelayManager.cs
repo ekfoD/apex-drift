@@ -9,6 +9,9 @@ public class RelayManager : MonoBehaviour
 {
     public static RelayManager Instance { get; private set; }
     
+    [Header("Settings")]
+    public GameObject networkPlayerPrefab;
+    
     private string joinCode;
     
     void Awake()
@@ -19,23 +22,73 @@ public class RelayManager : MonoBehaviour
             return;
         }
         Instance = this;
+        
+        // Subscribe to connection events
+        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
     }
     
+    void OnDestroy()
+    {
+        // Unsubscribe
+        if (NetworkManager.Singleton != null)
+        {
+            NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
+        }
+    }
+    
+    void OnClientConnected(ulong clientId)
+    {
+        Debug.Log($"Client connected: {clientId}");
+        
+        // Only server spawns NetworkPlayer objects
+        if (NetworkManager.Singleton.IsServer)
+        {
+            SpawnNetworkPlayer(clientId);
+        }
+    }
+    
+    void SpawnNetworkPlayer(ulong clientId)
+    {
+        if (networkPlayerPrefab == null)
+        {
+            Debug.LogError("NetworkPlayer prefab not assigned to RelayManager!");
+            return;
+        }
+        
+        // Spawn NetworkPlayer for this client
+        GameObject playerObj = Instantiate(networkPlayerPrefab);
+        NetworkObject netObj = playerObj.GetComponent<NetworkObject>();
+        
+        // Spawn with ownership of the client
+        netObj.SpawnAsPlayerObject(clientId);
+        
+        Debug.Log($"NetworkPlayer spawned for client: {clientId}");
+    }
+        
     // Host creates relay allocation
     public async Task<string> CreateRelay(int maxPlayers = 4)
     {
+        if (NetworkManager.Singleton == null)
+        {
+            Debug.LogError("NetworkManager not found!");
+            return null;
+        }
+        
         try
         {
-            // Create relay allocation (maxPlayers - 1 because host counts as one)
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(maxPlayers - 1);
-            
-            // Get join code
             joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
             
             Debug.Log($"Relay created with join code: {joinCode}");
             
-            // Set up transport - FIXED
-            NetworkManager.Singleton.GetComponent<UnityTransport>().SetHostRelayData(
+            var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+            if (transport == null)
+            {
+                Debug.LogError("UnityTransport component not found!");
+                return null;
+            }
+            
+            transport.SetHostRelayData(
                 allocation.RelayServer.IpV4,
                 (ushort)allocation.RelayServer.Port,
                 allocation.AllocationIdBytes,
@@ -43,7 +96,6 @@ public class RelayManager : MonoBehaviour
                 allocation.ConnectionData
             );
             
-            // Start as host
             NetworkManager.Singleton.StartHost();
             
             return joinCode;
@@ -55,18 +107,28 @@ public class RelayManager : MonoBehaviour
         }
     }
     
-    // Client joins relay
     public async Task<bool> JoinRelay(string joinCode)
     {
+        if (NetworkManager.Singleton == null)
+        {
+            Debug.LogError("NetworkManager not found!");
+            return false;
+        }
+        
         try
         {
-            // Join allocation
             JoinAllocation allocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
             
             Debug.Log($"Joined relay with code: {joinCode}");
             
-            // Set up transport - FIXED
-            NetworkManager.Singleton.GetComponent<UnityTransport>().SetClientRelayData(
+            var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+            if (transport == null)
+            {
+                Debug.LogError("UnityTransport component not found!");
+                return false;
+            }
+            
+            transport.SetClientRelayData(
                 allocation.RelayServer.IpV4,
                 (ushort)allocation.RelayServer.Port,
                 allocation.AllocationIdBytes,
@@ -75,7 +137,6 @@ public class RelayManager : MonoBehaviour
                 allocation.HostConnectionData
             );
             
-            // Start as client
             NetworkManager.Singleton.StartClient();
             
             return true;
