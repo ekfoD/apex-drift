@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 240744506217660102}
   - component: {fileID: 926280182025039222}
+  - component: {fileID: -8287665594530621971}
   m_Layer: 0
   m_Name: Finish
   m_TagString: Untagged
@@ -55,6 +56,20 @@ MonoBehaviour:
   maxIntensity: 5
   testGlowOn: 0
   testGlowOff: 0
+--- !u!114 &-8287665594530621971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187077262102365769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 017082f30fc244befa9450d5727c305f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finishUI: {fileID: 0}
+  timer: {fileID: 0}
 --- !u!1001 &1702837354278921394
 PrefabInstance:
   m_ObjectHideFlags: 0
