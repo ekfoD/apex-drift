@@ -17,12 +17,24 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Levels/Level2.unity
     guid: db5f3e5b7349c409cb338f6e71621163
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TestCar.unity
     guid: 6734ddada39ca4313ada6268887307dd
   - enabled: 0
     path: Assets/Scenes/TestCar 1.unity
     guid: f885413b449304eb78af0018c68aa7b5
+  - enabled: 1
+    path: Assets/Scenes/UI/SingleplyerMapSelection.unity
+    guid: ae43c7c6a94b08e4f9664c92200c36e1
+  - enabled: 1
+    path: Assets/Scenes/UI/SingleplayerCarSelection.unity
+    guid: 6e1bb67b792edb5429cabcba1f31bc4d
+  - enabled: 1
+    path: Assets/Scenes/Levels/world_01.unity
+    guid: d8219b4b669e8417d9e3d57613285b5c
+  - enabled: 1
+    path: Assets/Scenes/Levels/world_02.unity
+    guid: 6a2e161ad18dc4ca1a9284a67797b50d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
