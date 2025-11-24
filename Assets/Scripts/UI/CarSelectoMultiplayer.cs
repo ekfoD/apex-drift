@@ -162,18 +162,27 @@ public class CarSelectorMultiplayer : MonoBehaviour
             Debug.LogWarning("Please select a modification first!");
             return;
         }
+    
+    PlayerPrefs.SetString("GameMode", "Multiplayer");
+    PlayerPrefs.SetInt("SelectedCarIndex", currentCarIndex);
+    PlayerPrefs.SetString("SelectedCarName", carPrefabs[currentCarIndex].name);
+    PlayerPrefs.SetInt("SelectedModificationIndex", currentModificationIndex);
+    PlayerPrefs.Save();
+    
+    Debug.Log("MULTIPLAYER mode - Going to: " + randomMap + 
+                " with car: " + carPrefabs[currentCarIndex].name + 
+                " and modification: " + (currentModificationIndex + 1));
+
+    Debug.Log("Starting multiplayer matchmaking...");
+    
+    // Disable button to prevent multiple clicks
+    selectButton.interactable = false;
+    selectButton.GetComponentInChildren<TextMeshProUGUI>().text = "Searching...";
+    
+    // Start matchmaking
+    MPMatchmaker.Instance.StartMatchmaking(randomMap, currentCarIndex, currentModificationIndex);
         
-        PlayerPrefs.SetString("GameMode", "Multiplayer");
-        PlayerPrefs.SetInt("SelectedCarIndex", currentCarIndex);
-        PlayerPrefs.SetString("SelectedCarName", carPrefabs[currentCarIndex].name);
-        PlayerPrefs.SetInt("SelectedModificationIndex", currentModificationIndex);
-        PlayerPrefs.Save();
-        
-        Debug.Log("MULTIPLAYER mode - Going to: " + randomMap + 
-                  " with car: " + carPrefabs[currentCarIndex].name + 
-                  " and modification: " + (currentModificationIndex + 1));
-        
-        SceneManager.LoadScene(randomMap);
+        //SceneManager.LoadScene(randomMap);
     }
     
     void GoBack()
