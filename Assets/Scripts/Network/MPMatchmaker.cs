@@ -93,30 +93,33 @@ public class MPMatchmaker : MonoBehaviour
     {
         try
         {
+            // Get player's car selection BEFORE joining
+            int carIndex = PlayerPrefs.GetInt("SelectedCarIndex", 0);
+        
             QuickJoinLobbyOptions options = new QuickJoinLobbyOptions
             {
-                Player = GetPlayerData()
+                Player = GetPlayerData(carIndex) // Pass car index
             };
-            
+        
             currentLobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
-            
+        
             Debug.Log($"Joined existing lobby: {currentLobby.Name}");
             isInLobby = true;
-            
+        
             // Get host's selected map
             if (currentLobby.Data.ContainsKey("SelectedMap"))
             {
                 selectedMap = currentLobby.Data["SelectedMap"].Value;
                 PlayerPrefs.SetString("SelectedMap", selectedMap);
             }
-            
+        
             // Join relay
             if (currentLobby.Data.ContainsKey("RelayJoinCode"))
             {
                 string relayCode = currentLobby.Data["RelayJoinCode"].Value;
                 await RelayManager.Instance.JoinRelay(relayCode);
             }
-            
+        
             return true;
         }
         catch (LobbyServiceException e)
@@ -125,6 +128,7 @@ public class MPMatchmaker : MonoBehaviour
             return false;
         }
     }
+
     
     async Task CreateLobby()
     {
@@ -132,28 +136,31 @@ public class MPMatchmaker : MonoBehaviour
         {
             // Create relay first
             string relayCode = await RelayManager.Instance.CreateRelay(maxPlayers);
-            
+        
             if (string.IsNullOrEmpty(relayCode))
             {
                 Debug.LogError("Failed to create relay!");
                 isSearching = false;
                 return;
             }
-            
+        
+            // Get player's car selection
+            int carIndex = PlayerPrefs.GetInt("SelectedCarIndex", 0);
+        
             // Create lobby with map and relay data
             CreateLobbyOptions options = new CreateLobbyOptions
             {
                 IsPrivate = false,
-                Player = GetPlayerData(),
+                Player = GetPlayerData(carIndex), // Pass car index
                 Data = new Dictionary<string, DataObject>
                 {
                     { "SelectedMap", new DataObject(DataObject.VisibilityOptions.Public, selectedMap) },
                     { "RelayJoinCode", new DataObject(DataObject.VisibilityOptions.Public, relayCode) }
                 }
             };
-            
+        
             currentLobby = await LobbyService.Instance.CreateLobbyAsync($"Race_{Random.Range(1000, 9999)}", maxPlayers, options);
-            
+        
             Debug.Log($"Created lobby: {currentLobby.Name}, waiting for players...");
             isInLobby = true;
         }
@@ -163,6 +170,7 @@ public class MPMatchmaker : MonoBehaviour
             isSearching = false;
         }
     }
+
     
     async void SendHeartbeat()
     {
@@ -233,19 +241,28 @@ public class MPMatchmaker : MonoBehaviour
         }
         
         // Use NetworkManager scene loading
-        NetworkManager.Singleton.SceneManager.LoadScene(selectedMap, UnityEngine.SceneManagement.LoadSceneMode.Single);
+        //NetworkManager.Singleton.SceneManager.LoadScene(selectedMap, UnityEngine.SceneManagement.LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene("gaminam", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
     
-    Player GetPlayerData()
+    Player GetPlayerData(int carIndex)
     {
         return new Player
         {
             Data = new Dictionary<string, PlayerDataObject>
             {
-                { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, NetworkBootstrap.Instance.playerName) }
+                { "PlayerName", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, NetworkBootstrap.Instance.playerName) },
+                { "SelectedCar", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Public, carIndex.ToString()) } // ADD THIS
             }
         };
     }
+
+    public Lobby GetCurrentLobby()
+    {
+        return currentLobby;
+    }
+
+
     
     bool IsHost()
     {

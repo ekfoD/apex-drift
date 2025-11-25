@@ -28,8 +28,8 @@ public class CarSelectorMultiplayer : MonoBehaviour
     public Image mapPreviewImage;
     public Sprite[] mapSprites; 
     [Header("Available Maps")]
-    public string[] mapScenes = { "world_01", "world_02", "world_03", "world_04", "world_05" };
-    
+    //public string[] mapScenes = { "world_01", "world_02", "world_03", "world_04", "world_05" };
+    public string[] mapScenes = { "gaminam" };
     [Header("Selection Highlight")]
     public Color normalColor = Color.white;
     public Color selectedColor = Color.green;
@@ -44,7 +44,8 @@ public class CarSelectorMultiplayer : MonoBehaviour
     {
         randomMapIndex = Random.Range(0, mapScenes.Length);
         randomMap = mapScenes[randomMapIndex];
-        PlayerPrefs.SetString("SelectedMap", randomMap);
+        //PlayerPrefs.SetString("SelectedMap", randomMap);
+        PlayerPrefs.SetString("SelectedMap", "gaminam");
         Debug.Log("Random map: " + randomMap);
         
         leftArrow.onClick.AddListener(PreviousCar);

@@ -1380,6 +1380,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: NetworkManager
       objectReference: {fileID: 0}
+    - target: {fileID: 4579073654574635810, guid: 8d12a0aa5ffc74911b04183e8d6245db, type: 3}
+      propertyPath: NetworkConfig.Prefabs.NetworkPrefabsLists.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579073654574635810, guid: 8d12a0aa5ffc74911b04183e8d6245db, type: 3}
+      propertyPath: 'NetworkConfig.Prefabs.NetworkPrefabsLists.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d4e17a48773a148c2ae4cf8324216880, type: 2}
     - target: {fileID: 6563841562929747437, guid: 8d12a0aa5ffc74911b04183e8d6245db, type: 3}
       propertyPath: m_LocalPosition.x
       value: 754.15204
@@ -1879,9 +1887,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carPrefabs:
-  - {fileID: 793685457875359081, guid: 9c92406c14c380849bca38280c133c64, type: 3}
-  - {fileID: 1718881139866272103, guid: d84787863a48b884e8c303159510c801, type: 3}
-  - {fileID: 3859950695711406603, guid: eb1d6cef4963f9948a2d46b477134dfb, type: 3}
+  - {fileID: 1429979710038064447, guid: 695b91638ad814ae5a0b6ded2010f453, type: 3}
+  - {fileID: 8423638790551065702, guid: e0716feb0314d4b0b9f2691d5709d8bd, type: 3}
   leftArrow: {fileID: 1596854140}
   rightArrow: {fileID: 112299110}
   selectButton: {fileID: 641288535}

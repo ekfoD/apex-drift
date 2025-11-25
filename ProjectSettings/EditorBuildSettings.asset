@@ -44,6 +44,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/world_02.unity
     guid: 6a2e161ad18dc4ca1a9284a67797b50d
+  - enabled: 1
+    path: Assets/Scenes/Levels/world_03.unity
+    guid: 4f6f106706e4f452daa71d9233771fd8
+  - enabled: 1
+    path: Assets/Scenes/Levels/world_04.unity
+    guid: d5209404a6b914425b3dd684e5805a88
+  - enabled: 1
+    path: Assets/Scenes/Levels/world_05.unity
+    guid: 621dc334331ec4fd8ab39cfb3437c5a0
+  - enabled: 1
+    path: Assets/Scenes/Levels/gaminam.unity
+    guid: 90bef29bda8784baab1e4fdab6b3321d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
