@@ -6,6 +6,14 @@ public class Finish : MonoBehaviour
     public GameObject finishUI; 
     public Timer timer; 
 
+    void Start()
+    {
+        if (finishUI != null)
+        {
+            finishUI.SetActive(false);
+        }
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
