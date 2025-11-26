@@ -8,6 +8,14 @@ public class Finish : MonoBehaviour
     
     private bool hasFinished = false;
 
+    void Start()
+    {
+        if (finishUI != null)
+        {
+            finishUI.SetActive(false);
+        }
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && !hasFinished)
