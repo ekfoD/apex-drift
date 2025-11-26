@@ -1,6 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
 
 [System.Serializable]
 public class GhostFrame
@@ -8,7 +8,7 @@ public class GhostFrame
     public float time;
     public Vector3 position;
     public Quaternion rotation;
-    
+
     public GhostFrame(float t, Vector3 pos, Quaternion rot)
     {
         time = t;
@@ -25,33 +25,35 @@ public class GhostData
 
 public class GhostRecorder : MonoBehaviour
 {
+    [Header("Recording Settings")]
     public Transform carTransform;
     public float recordInterval = 0.05f;
     public string ghostFileName = "ghost_data.json";
-    
+
     private GhostData ghostData = new GhostData();
     private float timer = 0f;
     private float recordTimer = 0f;
     private bool isRecording = false;
-    
+
     void Update()
     {
-        if(isRecording)
+        if (isRecording)
         {
             timer += Time.deltaTime;
             recordTimer += Time.deltaTime;
-            
-            if(recordTimer >= recordInterval)
+
+            if (recordTimer >= recordInterval)
             {
                 ghostData.frames.Add(new GhostFrame(timer, carTransform.position, carTransform.rotation));
                 recordTimer = 0f;
             }
         }
-        
-        if(Input.GetKeyDown(KeyCode.R)) StartRecording();
-        if(Input.GetKeyDown(KeyCode.T)) StopRecording();
+
+        // Manual controls
+        if (Input.GetKeyDown(KeyCode.V)) StartRecording();
+        if (Input.GetKeyDown(KeyCode.B)) StopRecording();
     }
-    
+
     public void StartRecording()
     {
         ghostData.frames.Clear();
@@ -60,33 +62,40 @@ public class GhostRecorder : MonoBehaviour
         isRecording = true;
         Debug.Log("Recording started");
     }
-    
+
     public void StopRecording()
     {
         isRecording = false;
         SaveGhostData();
-        Debug.Log("Recording stopped. Frames: " + ghostData.frames.Count);
+        Debug.Log($"Recording stopped. Frames: {ghostData.frames.Count}");
     }
-    
-void SaveGhostData()
-{
-    string path = Path.Combine(Application.dataPath, "Scripts", "Ghost", ghostFileName);
-    File.WriteAllText(path, JsonUtility.ToJson(ghostData, true));
-    Debug.Log("Ghost saved: " + path);
-}
 
-public GhostData LoadGhostData()
-{
-    string path = Path.Combine(Application.dataPath, "Scripts", "Ghost", ghostFileName);
-    
-    if(File.Exists(path))
+    void SaveGhostData()
     {
-        Debug.Log("Ghost loaded: " + path);
-        return JsonUtility.FromJson<GhostData>(File.ReadAllText(path));
+        string path = Path.Combine(Application.persistentDataPath, ghostFileName);
+        File.WriteAllText(path, JsonUtility.ToJson(ghostData, true));
+        Debug.Log($"Ghost saved: {path}");
     }
-    
-    Debug.LogWarning("Ghost file not found: " + path);
-    return null;
-}
 
+    public GhostData LoadGhostData()
+    {
+        string path = Path.Combine(Application.persistentDataPath, ghostFileName);
+        if (File.Exists(path))
+        {
+            Debug.Log($"Ghost loaded: {path}");
+            return JsonUtility.FromJson<GhostData>(File.ReadAllText(path));
+        }
+        Debug.LogWarning($"Ghost file not found: {path}");
+        return null;
+    }
+
+    public void StartRecordingManually()
+    {
+        StartRecording();
+    }
+
+    public void StopRecordingManually()
+    {
+        StopRecording();
+    }
 }

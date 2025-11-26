@@ -8,6 +8,7 @@ public class MenuNavigator : MonoBehaviour
     public Button singleplayerButton;
     public Button multiplayerButton;
     public Button backButton;
+    public Button leaderboardButton;
     
     void Start()
     {
@@ -15,10 +16,13 @@ public class MenuNavigator : MonoBehaviour
             singleplayerButton.onClick.AddListener(GoToSingleplayerMapSelection);
         
         if (multiplayerButton != null)
-            multiplayerButton.onClick.AddListener(GoToMultiplayerCarSelection);
+            multiplayerButton.onClick.AddListener(GoToMultiplayerSession);
         
         if (backButton != null)
             backButton.onClick.AddListener(GoBackToMainMenu);
+        
+        if (leaderboardButton != null)
+            leaderboardButton.onClick.AddListener(GoToLeaderboard);
     }
     
     public void GoToSingleplayerMapSelection()
@@ -26,13 +30,18 @@ public class MenuNavigator : MonoBehaviour
         SceneManager.LoadScene("SingleplyerMapSelection");
     }
     
-    public void GoToMultiplayerCarSelection()
+    public void GoToMultiplayerSession() 
     {
-        SceneManager.LoadScene("MultiplayerCarSelection");
+        SceneManager.LoadScene("MultiplayerSession");
     }
     
     public void GoBackToMainMenu()
     {
         SceneManager.LoadScene("MainMeniu-Final");
+    }
+    
+    public void GoToLeaderboard()
+    {
+        SceneManager.LoadScene("Leaderboard"); 
     }
 }
