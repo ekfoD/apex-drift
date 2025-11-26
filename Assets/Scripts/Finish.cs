@@ -3,6 +3,7 @@ using UnityEngine;
 public class Finish : MonoBehaviour
 {
     private bool hasFinished = false;
+    public GhostRecorder ghostRecorder;
 
     void OnTriggerEnter(Collider other)
     {
@@ -35,7 +36,9 @@ public class Finish : MonoBehaviour
     void FinishRace()
     {
         hasFinished = true;
-        
+
+        ghostRecorder.StopRecording();
+
         // Get timer
         Timer timer = FindFirstObjectByType<Timer>();
         float finalTime = 0f;
