@@ -5,48 +5,77 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public Transform carTransform;
-
     [Range(1, 10)]
     public float followSpeed = 2f;
-
     [Range(1, 10)]
     public float lookSpeed = 5f;
-
     [Header("Drift Settings")]
     [Range(0, 10)]
     public float driftAmount = 3f;
-
     [Range(0, 5)]
     public float recenterSpeed = 1f;
-
     [Header("Angle Constraints")]
     [Range(0, 89)]
     public float maxVerticalAngle = 45f;
-
     [Range(0, 90)]
     public float maxHorizontalAngle = 90f;
 
     private Vector3 initialCameraPosition;
     private float initialCameraDistance;
     private float initialCameraHeight;
-
     private Vector3 previousCarPosition;
     private float currentHorizontalOffset = 0f;
+    private bool isInitialized = false;
 
     void Start()
     {
         initialCameraPosition = transform.position;
 
+        // Try to find the car if not assigned
+        if (carTransform == null)
+        {
+            FindCar();
+        }
+    }
+
+    void FindCar()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            carTransform = player.transform;
+            InitializeCamera();
+        }
+    }
+
+    void InitializeCamera()
+    {
+        if (carTransform == null) return;
+
         // Calculate initial camera distance and height
         Vector3 offset = initialCameraPosition - carTransform.position;
         initialCameraDistance = new Vector2(offset.x, offset.z).magnitude;
         initialCameraHeight = offset.y;
-
         previousCarPosition = carTransform.position;
+        isInitialized = true;
     }
 
     void FixedUpdate()
     {
+        // If car not found yet, keep trying
+        if (carTransform == null)
+        {
+            FindCar();
+            return;
+        }
+
+        // Initialize camera position on first frame after car is found
+        if (!isInitialized)
+        {
+            InitializeCamera();
+            return;
+        }
+
         // Car movement
         Vector3 carMovement = carTransform.position - previousCarPosition;
         previousCarPosition = carTransform.position;
