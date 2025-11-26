@@ -88,6 +88,19 @@ public class CarController : MonoBehaviour
         carRigidbody.centerOfMass = bodyMassCenter;
         
         ApplyDriftSettings();
+        
+        if (useUI)
+        {
+            GameObject speedUI = GameObject.FindGameObjectWithTag("SpeedUI");
+            if (speedUI != null)
+            {
+                carSpeedText = speedUI.GetComponent<TMP_Text>();
+            }
+            else
+            {
+                Debug.LogWarning("Speed UI not found! Tag a TMP_Text with 'SpeedUI'");
+            }
+        }
 
         // Save initial engine sound pitch
         if(carEngineSound != null)

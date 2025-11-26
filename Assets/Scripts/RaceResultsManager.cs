@@ -7,9 +7,9 @@ public class RaceResultsManager : NetworkBehaviour
 {
     public static RaceResultsManager Instance { get; private set; }
     
-    [Header("UI")]
-    public GameObject resultsPanel;
-    public TMP_Text resultsText;
+    [Header("UI - Drag Here!")]
+    public GameObject resultsPanel;    // ← Drag your results panel here
+    public TMP_Text resultsText;       // ← Drag your text field here
     
     private Dictionary<string, float> finishTimes = new Dictionary<string, float>();
     
@@ -33,15 +33,16 @@ public class RaceResultsManager : NetworkBehaviour
     
     public void ReportFinishTime(string playerName, float time)
     {
-        // Check if multiplayer
-        if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening)
+        bool isMultiplayer = NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening;
+        
+        if (isMultiplayer)
         {
-            // Send to server
+            // Multiplayer: send to server to sync
             ReportFinishTimeServerRpc(playerName, time);
         }
         else
         {
-            // Singleplayer - just add locally
+            // Singleplayer: just show locally
             AddFinishTime(playerName, time);
         }
     }
@@ -49,7 +50,6 @@ public class RaceResultsManager : NetworkBehaviour
     [Rpc(SendTo.Server)]
     void ReportFinishTimeServerRpc(string playerName, float time)
     {
-        // Broadcast to all clients
         AddFinishTimeClientRpc(playerName, time);
     }
     
@@ -74,12 +74,21 @@ public class RaceResultsManager : NetworkBehaviour
         if (resultsPanel != null) resultsPanel.SetActive(true);
         if (resultsText == null) return;
         
+        bool isMultiplayer = NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening;
+        
         // Sort by time
         List<KeyValuePair<string, float>> sortedResults = new List<KeyValuePair<string, float>>(finishTimes);
         sortedResults.Sort((a, b) => a.Value.CompareTo(b.Value));
         
         // Build results text
-        resultsText.text = "RACE RESULTS\n\n";
+        if (isMultiplayer)
+        {
+            resultsText.text = "RACE RESULTS\n\n";
+        }
+        else
+        {
+            resultsText.text = "RACE COMPLETE!\n\n";
+        }
         
         int position = 1;
         foreach (var result in sortedResults)
@@ -89,16 +98,27 @@ public class RaceResultsManager : NetworkBehaviour
             string timeStr = string.Format("{0:00}:{1:00}", minutes, seconds);
             
             string medal = "";
-            if (position == 1) medal = "🥇 ";
-            else if (position == 2) medal = "🥈 ";
-            else if (position == 3) medal = "🥉 ";
+            if (isMultiplayer)
+            {
+                if (position == 1) medal = "🥇 ";
+                else if (position == 2) medal = "🥈 ";
+                else if (position == 3) medal = "🥉 ";
+            }
             
-            resultsText.text += $"{medal}{position}. {result.Key} - {timeStr}\n";
+            if (isMultiplayer)
+            {
+                resultsText.text += $"{medal}{position}. {result.Key} - {timeStr}\n";
+            }
+            else
+            {
+                resultsText.text += $"Your Time: {timeStr}\n";
+            }
+            
             position++;
         }
         
-        // Show waiting message if multiplayer and not all finished
-        if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening)
+        // Show waiting message if multiplayer
+        if (isMultiplayer)
         {
             int expectedPlayers = NetworkManager.Singleton.ConnectedClients.Count;
             if (finishTimes.Count < expectedPlayers)
