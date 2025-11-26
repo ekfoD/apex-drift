@@ -3,7 +3,7 @@ using Unity.Netcode;
 using System.Collections.Generic;
 using TMPro;
 
-public class RaceResultsManager : MonoBehaviour // Changed from NetworkBehaviour
+public class RaceResultsManager : MonoBehaviour
 {
     public static RaceResultsManager Instance { get; private set; }
     
@@ -12,6 +12,8 @@ public class RaceResultsManager : MonoBehaviour // Changed from NetworkBehaviour
     public TMP_Text resultsText;
     
     private Dictionary<string, float> finishTimes = new Dictionary<string, float>();
+    private bool localPlayerFinished = false;
+    private string localPlayerName = "";
     
     void Awake()
     {
@@ -29,6 +31,17 @@ public class RaceResultsManager : MonoBehaviour // Changed from NetworkBehaviour
         {
             resultsPanel.SetActive(false);
         }
+        
+        // Get local player name
+        bool isMultiplayer = NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening;
+        if (isMultiplayer)
+        {
+            localPlayerName = NetworkBootstrap.Instance.playerName;
+        }
+        else
+        {
+            localPlayerName = "Player";
+        }
     }
     
     public void ReportFinishTime(string playerName, float time)
@@ -37,9 +50,15 @@ public class RaceResultsManager : MonoBehaviour // Changed from NetworkBehaviour
         
         Debug.Log($"ReportFinishTime called: {playerName} - {time}s, IsMultiplayer: {isMultiplayer}");
         
+        // Mark if this is the local player finishing
+        if (playerName == localPlayerName)
+        {
+            localPlayerFinished = true;
+            Debug.Log("LOCAL PLAYER FINISHED!");
+        }
+        
         if (isMultiplayer)
         {
-            // Multiplayer: get NetworkBehaviour component to send RPC
             var networkComp = GetComponent<RaceResultsNetworkSync>();
             if (networkComp != null)
             {
@@ -47,13 +66,12 @@ public class RaceResultsManager : MonoBehaviour // Changed from NetworkBehaviour
             }
             else
             {
-                Debug.LogError("RaceResultsNetworkSync component missing for multiplayer!");
-                AddFinishTime(playerName, time); // Fallback
+                Debug.LogError("RaceResultsNetworkSync component missing!");
+                AddFinishTime(playerName, time);
             }
         }
         else
         {
-            // Singleplayer: just show locally
             AddFinishTime(playerName, time);
         }
     }
@@ -74,16 +92,26 @@ public class RaceResultsManager : MonoBehaviour // Changed from NetworkBehaviour
     
     void UpdateResultsUI()
     {
-        Debug.Log("UpdateResultsUI called");
+        Debug.Log($"UpdateResultsUI called. Local player finished: {localPlayerFinished}");
         
-        if (resultsPanel != null)
+        bool isMultiplayer = NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening;
+        
+        // ONLY show results panel if local player has finished OR singleplayer
+        if (!isMultiplayer || localPlayerFinished)
         {
-            resultsPanel.SetActive(true);
-            Debug.Log("Results panel activated");
+            if (resultsPanel != null)
+            {
+                resultsPanel.SetActive(true);
+                Debug.Log("Results panel activated for local player");
+            }
+            else
+            {
+                Debug.LogError("Results panel is null!");
+            }
         }
         else
         {
-            Debug.LogError("Results panel is null!");
+            Debug.Log("Other player finished, but not showing results yet (local player still racing)");
         }
         
         if (resultsText == null)
@@ -92,13 +120,11 @@ public class RaceResultsManager : MonoBehaviour // Changed from NetworkBehaviour
             return;
         }
         
-        bool isMultiplayer = NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening;
+        // Build results text (even if not showing yet, so it's ready when we finish)
         
         // Sort by time
         List<KeyValuePair<string, float>> sortedResults = new List<KeyValuePair<string, float>>(finishTimes);
         sortedResults.Sort((a, b) => a.Value.CompareTo(b.Value));
-        
-        // Build results text
         
         int position = 1;
         foreach (var result in sortedResults)
@@ -106,7 +132,6 @@ public class RaceResultsManager : MonoBehaviour // Changed from NetworkBehaviour
             int minutes = Mathf.FloorToInt(result.Value / 60);
             int seconds = Mathf.FloorToInt(result.Value % 60);
             string timeStr = string.Format("{0:00}:{1:00}", minutes, seconds);
-            
             
             if (isMultiplayer)
             {
@@ -120,8 +145,8 @@ public class RaceResultsManager : MonoBehaviour // Changed from NetworkBehaviour
             position++;
         }
         
-        // Show waiting message if multiplayer
-        if (isMultiplayer)
+        // Show waiting message if multiplayer and we've finished but others haven't
+        if (isMultiplayer && localPlayerFinished)
         {
             int expectedPlayers = NetworkManager.Singleton.ConnectedClients.Count;
             if (finishTimes.Count < expectedPlayers)
