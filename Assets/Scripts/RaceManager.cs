@@ -16,6 +16,7 @@ public class RaceManager : NetworkBehaviour
     public bool raceStarted = false;
     
     private bool isMultiplayer = false;
+    private GameObject spawnedCar; // Store reference to car
     
     void Awake()
     {
@@ -47,7 +48,10 @@ public class RaceManager : NetworkBehaviour
         Debug.Log("Starting singleplayer race...");
         
         int carIndex = PlayerPrefs.GetInt("SelectedCarIndex", 0);
-        spawnPoint.SpawnCar(carIndex, isNetworkSpawn: false);
+        spawnedCar = spawnPoint.SpawnCar(carIndex, isNetworkSpawn: false);
+        
+        // Disable car controls during countdown
+        DisableCarControls();
         
         StartCoroutine(CountdownSequence());
     }
@@ -56,16 +60,59 @@ public class RaceManager : NetworkBehaviour
     {
         if (NetworkManager.Singleton == null) return;
         
-        // EACH CLIENT spawns their OWN car locally (no network spawn)
         int carIndex = PlayerPrefs.GetInt("SelectedCarIndex", 0);
-        spawnPoint.SpawnCar(carIndex, isNetworkSpawn: false);
+        spawnedCar = spawnPoint.SpawnCar(carIndex, isNetworkSpawn: false);
+        
+        // Disable car controls during countdown
+        DisableCarControls();
         
         Debug.Log("Multiplayer: Spawned local car, waiting for countdown...");
         
-        // Only host triggers countdown
         if (IsServer)
         {
             Invoke(nameof(StartNetworkCountdown), 1f);
+        }
+    }
+    
+    void DisableCarControls()
+    {
+        if (spawnedCar == null) return;
+        
+        // Disable car controller
+        CarController carController = spawnedCar.GetComponent<CarController>();
+        if (carController != null)
+        {
+            carController.enabled = false;
+            if (carController.tireScreechSound != null) carController.tireScreechSound.Stop();
+        }
+        
+        // Make sure rigidbody is frozen
+        Rigidbody rb = spawnedCar.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+        }
+    }
+    
+    void EnableCarControls()
+    {
+        if (spawnedCar == null) return;
+        
+        // Enable car controller
+        CarController carController = spawnedCar.GetComponent<CarController>();
+        if (carController != null)
+        {
+            carController.enabled = true;
+            if (carController.tireScreechSound != null) carController.tireScreechSound.Play();
+        }
+        
+        // Unfreeze rigidbody
+        Rigidbody rb = spawnedCar.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.constraints = RigidbodyConstraints.None;
+            // Keep Y rotation free but freeze other rotations for car stability
+            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         }
     }
     
@@ -85,6 +132,7 @@ public class RaceManager : NetworkBehaviour
         if (countdownText != null)
         {
             countdownText.gameObject.SetActive(true);
+            
             countdownText.text = "3";
             yield return new WaitForSeconds(1f);
             
@@ -101,14 +149,8 @@ public class RaceManager : NetworkBehaviour
         }
         else
         {
-            Debug.Log("3...");
-            yield return new WaitForSeconds(1f);
-            Debug.Log("2...");
-            yield return new WaitForSeconds(1f);
-            Debug.Log("1...");
-            yield return new WaitForSeconds(1f);
-            Debug.Log("GO!");
-            yield return new WaitForSeconds(0.5f);
+            // No UI, just wait
+            yield return new WaitForSeconds(3.5f);
         }
         
         StartRace();
@@ -118,13 +160,16 @@ public class RaceManager : NetworkBehaviour
     {
         raceStarted = true;
         
+        // Enable car controls
+        EnableCarControls();
+        
+        // Start timer
         Timer timer = FindFirstObjectByType<Timer>();
         if (timer != null)
         {
             timer.StartTimer();
         }
         
-        Debug.Log("RACE STARTED!");
     }
     
     public bool IsMultiplayer()
