@@ -241,8 +241,7 @@ public class MPMatchmaker : MonoBehaviour
         }
         
         // Use NetworkManager scene loading
-        //NetworkManager.Singleton.SceneManager.LoadScene(selectedMap, UnityEngine.SceneManagement.LoadSceneMode.Single);
-        NetworkManager.Singleton.SceneManager.LoadScene("gaminam", UnityEngine.SceneManagement.LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene(selectedMap, UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
     
     Player GetPlayerData(int carIndex)
