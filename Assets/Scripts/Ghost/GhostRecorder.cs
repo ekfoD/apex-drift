@@ -44,10 +44,13 @@ public class GhostRecorder : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("START on GhostRec");
         if (string.IsNullOrEmpty(ghostFileName))
         {
             InitializeFileName();
         }
+
+        StartRecording();
     }
 
     private void InitializeFileName()
@@ -104,6 +107,7 @@ public class GhostRecorder : MonoBehaviour
 
     public void StopRecording()
     {
+        Debug.Log($"TEST isRecording: {isRecording}");
         if (!isRecording) return;
 
         isRecording = false;
