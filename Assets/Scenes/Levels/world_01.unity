@@ -158,6 +158,9 @@ MonoBehaviour:
   recenterSpeed: 1
   maxVerticalAngle: 45
   maxHorizontalAngle: 90
+  maxDistanceBeforeTeleport: 100
+  defaultCameraDistance: 10
+  defaultCameraHeight: 5
 --- !u!114 &20970814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -511,6 +514,7 @@ GameObject:
   - component: {fileID: 370959993}
   - component: {fileID: 370959992}
   - component: {fileID: 370959991}
+  - component: {fileID: 370959994}
   m_Layer: 0
   m_Name: RaceResultsManager
   m_TagString: Untagged
@@ -530,7 +534,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1481afad8a1d404fb8f60dcada8e574, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
   resultsPanel: {fileID: 3941195722947605899}
   resultsText: {fileID: 884437493015850635}
 --- !u!114 &370959992
@@ -573,6 +576,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &370959994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370959990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 068ed86a855db4ef9a11b8863c0dd327, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &397606505
 GameObject:
   m_ObjectHideFlags: 0
@@ -1123,7 +1139,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!43 &1051846829
+--- !u!43 &1013539518
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1760,7 +1776,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1051846829}
+  m_Mesh: {fileID: 1013539518}
 --- !u!23 &1681414179
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1813,7 +1829,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1681414177}
-  m_Mesh: {fileID: 1051846829}
+  m_Mesh: {fileID: 1013539518}
 --- !u!114 &1681414181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2658,6 +2674,46 @@ PrefabInstance:
     - target: {fileID: 691221302332609928, guid: e5d22d6fa46b948689b982f1e59cf954, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1776050299253180565, guid: e5d22d6fa46b948689b982f1e59cf954, type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3316049531496287348, guid: e5d22d6fa46b948689b982f1e59cf954, type: 3}
+      propertyPath: m_margin.w
+      value: -235.04108
+      objectReference: {fileID: 0}
+    - target: {fileID: 3316049531496287348, guid: e5d22d6fa46b948689b982f1e59cf954, type: 3}
+      propertyPath: m_margin.x
+      value: -211.44006
+      objectReference: {fileID: 0}
+    - target: {fileID: 3316049531496287348, guid: e5d22d6fa46b948689b982f1e59cf954, type: 3}
+      propertyPath: m_margin.y
+      value: 11.990845
+      objectReference: {fileID: 0}
+    - target: {fileID: 3316049531496287348, guid: e5d22d6fa46b948689b982f1e59cf954, type: 3}
+      propertyPath: m_margin.z
+      value: -111.231445
+      objectReference: {fileID: 0}
+    - target: {fileID: 3316049531496287348, guid: e5d22d6fa46b948689b982f1e59cf954, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5401195595099801180, guid: e5d22d6fa46b948689b982f1e59cf954, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6468349770205238133, guid: e5d22d6fa46b948689b982f1e59cf954, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6468349770205238133, guid: e5d22d6fa46b948689b982f1e59cf954, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6468349770205238133, guid: e5d22d6fa46b948689b982f1e59cf954, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 96.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
