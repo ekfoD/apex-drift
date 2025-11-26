@@ -68,8 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017082f30fc244befa9450d5727c305f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  finishUI: {fileID: 0}
-  timer: {fileID: 0}
+  ghostRecorder: {fileID: 7574079751290044871, guid: ced4aeb6069b7f7478e831d3395c497c, type: 3}
 --- !u!1001 &1702837354278921394
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -155,8 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017082f30fc244befa9450d5727c305f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  finishUI: {fileID: 0}
-  timer: {fileID: 0}
+  ghostRecorder: {fileID: 7574079751290044871, guid: ced4aeb6069b7f7478e831d3395c497c, type: 3}
 --- !u!65 &4104900458522935888
 BoxCollider:
   m_ObjectHideFlags: 0

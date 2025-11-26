@@ -32,7 +32,7 @@ public class MenuNavigator : MonoBehaviour
     
     public void GoToMultiplayerSession() 
     {
-        SceneManager.LoadScene("MultiplayerSession");
+        SceneManager.LoadScene("MultiplayerCarSelection");
     }
     
     public void GoBackToMainMenu()

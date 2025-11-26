@@ -575,7 +575,7 @@ MonoBehaviour:
   RRWParticleSystem: {fileID: 0}
   RLWTireSkid: {fileID: 0}
   RRWTireSkid: {fileID: 0}
-  useUI: 0
+  useUI: 1
   carSpeedText: {fileID: 0}
   useSounds: 1
   carEngineSound: {fileID: 2433713701014774018}
