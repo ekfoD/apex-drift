@@ -716,6 +716,7 @@ GameObject:
   - component: {fileID: 3204249474222613323}
   - component: {fileID: 3774393913558518208}
   - component: {fileID: 7369534900253704977}
+  - component: {fileID: 3837565778118137013}
   m_Layer: 0
   m_Name: ae86
   m_TagString: Player
@@ -789,8 +790,8 @@ MonoBehaviour:
   steeringSpeed: 0.532
   brakeForce: 350
   decelerationMultiplier: 2
-  handbrakeDriftMultiplier: 5
   bodyMassCenter: {x: 0, y: 0, z: 0}
+  driftiness: 1.5
   frontLeftMesh: {fileID: 8919402377621309359}
   frontLeftCollider: {fileID: 1207390669936446320}
   frontRightMesh: {fileID: 4132503504033733404}
@@ -811,7 +812,6 @@ MonoBehaviour:
   tireScreechSound: {fileID: 8067141963996945339}
   carSpeed: 0
   isDrifting: 0
-  isTractionLocked: 0
 --- !u!65 &3774393913558518208
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -846,6 +846,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   matchCheckpointRotation: 1
+--- !u!114 &3837565778118137013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8423638790551065702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a1fa9631546a46688dc2cff5d5afc57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modifications:
+  - name: Engine Upgrade
+    speedMultiplier: 1.3
+    accelerationMultiplier: 1.25
+    weightMultiplier: 1.15
+    handlingMultiplier: 0.95
+    driftinessMultiplier: 1.1
+    brakeMultiplier: 0.95
+  - name: Grip Tires
+    speedMultiplier: 0.95
+    accelerationMultiplier: 1.05
+    weightMultiplier: 1
+    handlingMultiplier: 1.15
+    driftinessMultiplier: 0.7
+    brakeMultiplier: 1.25
+  - name: Weight Reduction
+    speedMultiplier: 1.1
+    accelerationMultiplier: 1.3
+    weightMultiplier: 0.75
+    handlingMultiplier: 1.2
+    driftinessMultiplier: 1.25
+    brakeMultiplier: 1.1
 --- !u!1 &8564914908369969013
 GameObject:
   m_ObjectHideFlags: 0
