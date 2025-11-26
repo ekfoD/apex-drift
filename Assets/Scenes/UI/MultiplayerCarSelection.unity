@@ -594,7 +594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxPlayers: 4
-  minPlayersToStart: 2
+  minPlayersToStart: 1
   isSearching: 0
   isInLobby: 0
 --- !u!4 &238152808
@@ -1954,6 +1954,7 @@ MonoBehaviour:
   carPrefabs:
   - {fileID: 1429979710038064447, guid: 695b91638ad814ae5a0b6ded2010f453, type: 3}
   - {fileID: 8423638790551065702, guid: e0716feb0314d4b0b9f2691d5709d8bd, type: 3}
+  - {fileID: 3292756211482810237, guid: 563bc35d8e94243bd8cc01a73065f740, type: 3}
   leftArrow: {fileID: 1596854140}
   rightArrow: {fileID: 112299110}
   selectButton: {fileID: 641288535}
@@ -2824,7 +2825,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2

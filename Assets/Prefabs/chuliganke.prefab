@@ -316,6 +316,7 @@ GameObject:
   - component: {fileID: 6295577293723982717}
   - component: {fileID: 622227232063059063}
   - component: {fileID: -5752409322342113542}
+  - component: {fileID: -4971381498721049871}
   m_Layer: 0
   m_Name: chuliganke
   m_TagString: Player
@@ -389,8 +390,8 @@ MonoBehaviour:
   steeringSpeed: 0.532
   brakeForce: 350
   decelerationMultiplier: 2
-  handbrakeDriftMultiplier: 5
   bodyMassCenter: {x: 0, y: 0, z: 0}
+  driftiness: 1.5
   frontLeftMesh: {fileID: 899056484338161042}
   frontLeftCollider: {fileID: 1298223686892606759}
   frontRightMesh: {fileID: 8956801129106294915}
@@ -411,7 +412,6 @@ MonoBehaviour:
   tireScreechSound: {fileID: 8311493971438963053}
   carSpeed: 0
   isDrifting: 0
-  isTractionLocked: 0
 --- !u!114 &-5752409322342113542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,6 +425,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   matchCheckpointRotation: 1
+--- !u!114 &-4971381498721049871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429979710038064447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a1fa9631546a46688dc2cff5d5afc57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modifications:
+  - name: Engine Upgrade
+    speedMultiplier: 1.3
+    accelerationMultiplier: 1.25
+    weightMultiplier: 1.15
+    handlingMultiplier: 0.95
+    driftinessMultiplier: 1.1
+    brakeMultiplier: 0.95
+  - name: Grip Tires
+    speedMultiplier: 0.95
+    accelerationMultiplier: 1.05
+    weightMultiplier: 1
+    handlingMultiplier: 1.15
+    driftinessMultiplier: 0.7
+    brakeMultiplier: 1.25
+  - name: Weight Reduction
+    speedMultiplier: 1.1
+    accelerationMultiplier: 1.3
+    weightMultiplier: 0.75
+    handlingMultiplier: 1.2
+    driftinessMultiplier: 1.25
+    brakeMultiplier: 1.1
 --- !u!1 &1927072968389041221
 GameObject:
   m_ObjectHideFlags: 0
