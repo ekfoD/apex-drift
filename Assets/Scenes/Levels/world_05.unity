@@ -1318,7 +1318,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4699429698527271884, guid: ecfb7787bbcf140358e1a8fcd5443103, type: 3}
   m_PrefabInstance: {fileID: 884840299}
   m_PrefabAsset: {fileID: 0}
---- !u!43 &895289406
+--- !u!43 &929273289
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1611,6 +1611,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9208821774712872487, guid: 246437d59f6ab402c8d9633a2f9b41a0, type: 3}
   m_PrefabInstance: {fileID: 1171737043}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1198703893 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7574079751290044871, guid: ced4aeb6069b7f7478e831d3395c497c, type: 3}
+  m_PrefabInstance: {fileID: 8164004557905597807}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f79efd24fab143589fb8148e0c5ad77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1225062975
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2011,7 +2022,7 @@ PrefabInstance:
     - target: {fileID: 5436674686475126294, guid: 4467d81d950a0cd4aa23727c1c9d6d2c, type: 3}
       propertyPath: ghostRecorder
       value: 
-      objectReference: {fileID: 1236646443}
+      objectReference: {fileID: 1198703893}
     - target: {fileID: 8283041577042104077, guid: 4467d81d950a0cd4aa23727c1c9d6d2c, type: 3}
       propertyPath: m_Name
       value: Ghost Manager
@@ -2094,7 +2105,7 @@ PrefabInstance:
     - target: {fileID: -8287665594530621971, guid: 720c29df367f34e9582b20fa01104792, type: 3}
       propertyPath: ghostRecorder
       value: 
-      objectReference: {fileID: 1236646443}
+      objectReference: {fileID: 1198703893}
     - target: {fileID: 240744506217660102, guid: 720c29df367f34e9582b20fa01104792, type: 3}
       propertyPath: m_LocalPosition.x
       value: 887.4
@@ -2139,6 +2150,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Finish
       objectReference: {fileID: 0}
+    - target: {fileID: 3028704428604021945, guid: 720c29df367f34e9582b20fa01104792, type: 3}
+      propertyPath: ghostRecorder
+      value: 
+      objectReference: {fileID: 1198703893}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2243,7 +2258,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 895289406}
+  m_Mesh: {fileID: 929273289}
 --- !u!23 &1547663099
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2296,7 +2311,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1547663097}
-  m_Mesh: {fileID: 895289406}
+  m_Mesh: {fileID: 929273289}
 --- !u!114 &1547663101
 MonoBehaviour:
   m_ObjectHideFlags: 0
