@@ -1,10 +1,12 @@
 using UnityEngine;
+using Unity.Netcode;
 
 public class Finish : MonoBehaviour
 {
     [Header("References")]
-    public GameObject finishUI; 
-    public Timer timer; 
+    public GameObject finishUI;
+    
+    private bool hasFinished = false;
 
     void Start()
     {
@@ -16,16 +18,18 @@ public class Finish : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !hasFinished)
         {
+            if (RaceManager.Instance.IsMultiplayer())
+            {
+                NetworkObject netObj = other.GetComponent<NetworkObject>();
+                if (netObj != null && !netObj.IsOwner) return;
+            }
+            
             var checkpointRespawn = other.GetComponent<CheckpointRespawn>();
             if (checkpointRespawn != null)
             {
                 CheckFinish(checkpointRespawn);
-            }
-            else
-            {
-                Debug.LogWarning("Player has no CheckpointRespawn script!");
             }
         }
     }
@@ -48,16 +52,45 @@ public class Finish : MonoBehaviour
 
     void FinishRace()
     {
-        // Stop timer
+        hasFinished = true;
+        
+        // FIND timer dynamically
+        Timer timer = FindFirstObjectByType<Timer>();
+        
+        float finalTime = 0f;
+        
         if (timer != null)
         {
             timer.StopTimer();
+            finalTime = timer.elapsedTime;
+            Debug.Log($"Timer found! Final time: {finalTime}s"); // ADD THIS LOG
+        }
+        else
+        {
+            Debug.LogError("Timer not found in scene!");
         }
 
-        // Show finish UI
         if (finishUI != null)
         {
             finishUI.SetActive(true);
+        }
+        
+        Debug.Log($"Finished race in {finalTime}s");
+        
+        if (RaceManager.Instance.IsMultiplayer())
+        {
+            string playerName = NetworkBootstrap.Instance.playerName;
+            RaceResultsManager resultsManager = FindFirstObjectByType<RaceResultsManager>();
+            
+            if (resultsManager != null)
+            {
+                Debug.Log($"Sending finish time: {playerName} - {finalTime}s");
+                resultsManager.ReportFinishTime(playerName, finalTime);
+            }
+            else
+            {
+                Debug.LogError("RaceResultsManager not found in scene!");
+            }
         }
     }
 }

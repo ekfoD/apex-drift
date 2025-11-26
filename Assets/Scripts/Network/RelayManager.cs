@@ -22,6 +22,7 @@ public class RelayManager : MonoBehaviour
             return;
         }
         Instance = this;
+        DontDestroyOnLoad(gameObject);
         
         // Subscribe to connection events
         NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
