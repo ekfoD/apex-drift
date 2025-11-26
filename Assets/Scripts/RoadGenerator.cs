@@ -55,7 +55,6 @@ public class RoadGenerator : MonoBehaviour
         var splineContainer = GetComponent<SplineContainer>();
         if (splineContainer == null || splineContainer.Spline == null)
         {
-            Debug.LogWarning("No spline found!");
             return;
         }
         
@@ -63,7 +62,6 @@ public class RoadGenerator : MonoBehaviour
         
         if (spline.Count < 2)
         {
-            Debug.LogWarning("Spline needs at least 2 points!");
             return;
         }
         
@@ -148,8 +146,6 @@ public class RoadGenerator : MonoBehaviour
         MeshCollider collider = GetComponent<MeshCollider>();
         if (collider == null) collider = gameObject.AddComponent<MeshCollider>();
         collider.sharedMesh = mesh;
-        
-        Debug.Log($"Road generated: {splineLength:F1}m long, {totalSegments} segments");
     }
     
     void AddQuad(List<int> triangles, int v0, int v1, int v2, int v3)
