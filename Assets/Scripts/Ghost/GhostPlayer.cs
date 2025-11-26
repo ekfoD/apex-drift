@@ -15,30 +15,26 @@ public class GhostPlayer : MonoBehaviour
     private float timer = 0f;
     private bool isPlaying = false;
     private bool isGhostVisible = true;
+    private bool hasFinished = false;
 
     void Start()
     {
+        // Check references
+        if (ghostRecorder == null)
+        {
+            Debug.LogError("GhostRecorder reference is missing! Please assign it in the inspector.");
+        }
+
+        if (ghostCarPrefab == null)
+        {
+            Debug.LogError("Ghost car prefab is missing! Please assign it in the inspector.");
+        }
+
         LoadAndInitializeGhost();
     }
 
     void Update()
     {
-        // Recording controls
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            ghostRecorder.StartRecordingManually();
-            Debug.Log("Recording started.");
-        }
-
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            ghostRecorder.StopRecordingManually();
-            Debug.Log("Recording stopped.");
-
-            // Reload the ghost after recording
-            LoadAndInitializeGhost();
-        }
-
         // Toggle ghost visibility
         if (Input.GetKeyDown(toggleVisibilityKey))
         {
@@ -46,7 +42,7 @@ public class GhostPlayer : MonoBehaviour
         }
 
         // Update playback
-        if (isPlaying && ghostData != null && ghostCar != null)
+        if (isPlaying && !hasFinished && ghostData != null && ghostCar != null)
         {
             UpdatePlayback();
         }
@@ -58,37 +54,37 @@ public class GhostPlayer : MonoBehaviour
         if (ghostCar != null)
         {
             Destroy(ghostCar);
+            ghostCar = null;
+        }
+
+        // Check references before attempting to load
+        if (ghostRecorder == null)
+        {
+            Debug.LogError("GhostRecorder reference is missing!");
+            return;
+        }
+
+        if (ghostCarPrefab == null)
+        {
+            Debug.LogError("Ghost car prefab is missing!");
+            return;
         }
 
         // Load ghost data
-        if (ghostRecorder != null)
-        {
-            ghostData = ghostRecorder.LoadGhostData();
+        ghostData = ghostRecorder.LoadGhostData();
 
-            if (ghostData == null || ghostData.frames.Count == 0)
-            {
-                Debug.LogWarning("No ghost data available.");
-                return;
-            }
-
-            // Initialize ghost car
-            if (ghostCarPrefab != null)
-            {
-                ghostCar = Instantiate(ghostCarPrefab);
-                ghostCar.name = "Ghost Car";
-                ghostCar.SetActive(isGhostVisible);
-                StartPlayback();
-                Debug.Log($"Ghost initialized with {ghostData.frames.Count} frames.");
-            }
-            else
-            {
-                Debug.LogError("Ghost car prefab is missing!");
-            }
-        }
-        else
+        if (ghostData == null || ghostData.frames.Count == 0)
         {
-            Debug.LogError("GhostRecorder reference is missing!");
+            Debug.LogWarning("No ghost data available. Record a ghost first by pressing V to start and B to stop.");
+            return;
         }
+
+        // Initialize ghost car
+        ghostCar = Instantiate(ghostCarPrefab);
+        ghostCar.name = "Ghost Car";
+        ghostCar.SetActive(isGhostVisible);
+        StartPlayback();
+        Debug.Log($"Ghost initialized with {ghostData.frames.Count} frames.");
     }
 
     private void UpdatePlayback()
@@ -130,13 +126,17 @@ public class GhostPlayer : MonoBehaviour
             }
         }
 
-        // Loop playback or stop at the end
+        // Stop at the end instead of looping
         if (currentFrame >= ghostData.frames.Count - 1)
         {
-            // Restart playback (loop)
-            currentFrame = 0;
-            timer = 0f;
-            Debug.Log("Ghost playback looped.");
+            // Set to final frame position
+            GhostFrame finalFrame = ghostData.frames[ghostData.frames.Count - 1];
+            ghostCar.transform.position = finalFrame.position;
+            ghostCar.transform.rotation = finalFrame.rotation;
+
+            hasFinished = true;
+            isPlaying = false;
+            Debug.Log("Ghost playback finished.");
         }
     }
 
@@ -145,6 +145,7 @@ public class GhostPlayer : MonoBehaviour
         timer = 0f;
         currentFrame = 0;
         isPlaying = true;
+        hasFinished = false;
         Debug.Log("Ghost playback started.");
     }
 
@@ -158,7 +159,7 @@ public class GhostPlayer : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No ghost car to toggle.");
+            Debug.LogWarning("No ghost car instantiated. Make sure you have recorded a ghost first (V to start, B to stop) and the ghost car prefab is assigned.");
         }
     }
 
