@@ -1391,7 +1391,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 1594318136}
+  m_Mesh: {fileID: 1645451155}
 --- !u!23 &1370326933
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1444,7 +1444,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1370326931}
-  m_Mesh: {fileID: 1594318136}
+  m_Mesh: {fileID: 1645451155}
 --- !u!114 &1370326935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2518,7 +2518,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 246437d59f6ab402c8d9633a2f9b41a0, type: 3}
---- !u!43 &1594318136
+--- !u!4 &1641279359 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9208821774712872487, guid: 246437d59f6ab402c8d9633a2f9b41a0, type: 3}
+  m_PrefabInstance: {fileID: 442871055}
+  m_PrefabAsset: {fileID: 0}
+--- !u!43 &1645451155
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2683,11 +2688,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!4 &1641279359 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9208821774712872487, guid: 246437d59f6ab402c8d9633a2f9b41a0, type: 3}
-  m_PrefabInstance: {fileID: 442871055}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1674743136
 GameObject:
   m_ObjectHideFlags: 0
@@ -2773,6 +2773,7 @@ GameObject:
   - component: {fileID: 1680929832}
   - component: {fileID: 1680929831}
   - component: {fileID: 1680929830}
+  - component: {fileID: 1680929833}
   m_Layer: 0
   m_Name: RaceResultsManager
   m_TagString: Untagged
@@ -2792,7 +2793,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1481afad8a1d404fb8f60dcada8e574, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
   resultsPanel: {fileID: 1451363220}
   resultsText: {fileID: 1451363219}
 --- !u!114 &1680929831
@@ -2835,6 +2835,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1680929833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680929829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 068ed86a855db4ef9a11b8863c0dd327, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!4 &1748357088 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9208821774712872487, guid: 246437d59f6ab402c8d9633a2f9b41a0, type: 3}
@@ -3055,6 +3068,9 @@ MonoBehaviour:
   recenterSpeed: 1
   maxVerticalAngle: 45
   maxHorizontalAngle: 90
+  maxDistanceBeforeTeleport: 100
+  defaultCameraDistance: 10
+  defaultCameraHeight: 5
 --- !u!114 &2070368009
 MonoBehaviour:
   m_ObjectHideFlags: 0

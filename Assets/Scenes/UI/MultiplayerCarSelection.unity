@@ -805,7 +805,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxPlayers: 4
-  minPlayersToStart: 1
+  minPlayersToStart: 2
   isSearching: 0
   isInLobby: 0
 --- !u!4 &238152808
