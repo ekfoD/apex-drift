@@ -1,123 +1,183 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
     public Transform carTransform;
-    [Range(1, 10)]
     public float followSpeed = 2f;
-    [Range(1, 10)]
     public float lookSpeed = 5f;
+
     [Header("Drift Settings")]
-    [Range(0, 10)]
     public float driftAmount = 3f;
-    [Range(0, 5)]
     public float recenterSpeed = 1f;
+
     [Header("Angle Constraints")]
-    [Range(0, 89)]
     public float maxVerticalAngle = 45f;
-    [Range(0, 90)]
     public float maxHorizontalAngle = 90f;
 
-    private Vector3 initialCameraPosition;
+    [Header("Teleport Settings")]
+    public float maxDistanceBeforeTeleport = 100f;
+    public float defaultCameraDistance = 10f;
+    public float defaultCameraHeight = 5f;
+
     private float initialCameraDistance;
     private float initialCameraHeight;
+
     private Vector3 previousCarPosition;
     private float currentHorizontalOffset = 0f;
+
     private bool isInitialized = false;
+    private bool justTeleported = false;
 
     void Start()
     {
-        initialCameraPosition = transform.position;
-
-        // Try to find the car if not assigned
         if (carTransform == null)
-        {
             FindCar();
-        }
     }
 
     void FindCar()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        GameObject p = GameObject.FindGameObjectWithTag("Player");
+        if (p != null)
         {
-            carTransform = player.transform;
-            InitializeCamera();
+            carTransform = p.transform;
+            StartCoroutine(DelayedInitialize());
         }
+    }
+
+    IEnumerator DelayedInitialize()
+    {
+        yield return new WaitForFixedUpdate();
+        yield return new WaitForFixedUpdate();
+        InitializeCamera();
     }
 
     void InitializeCamera()
     {
         if (carTransform == null) return;
 
-        // Calculate initial camera distance and height
-        Vector3 offset = initialCameraPosition - carTransform.position;
-        initialCameraDistance = new Vector2(offset.x, offset.z).magnitude;
-        initialCameraHeight = offset.y;
+        float dist = Vector3.Distance(transform.position, carTransform.position);
+
+        if (dist > maxDistanceBeforeTeleport)
+        {
+            initialCameraDistance = defaultCameraDistance;
+            initialCameraHeight = defaultCameraHeight;
+            TeleportCamera();
+        }
+        else
+        {
+            Vector3 offset = transform.position - carTransform.position;
+            initialCameraDistance = new Vector3(offset.x, 0f, offset.z).magnitude;
+            initialCameraHeight = offset.y;
+        }
+
         previousCarPosition = carTransform.position;
+        currentHorizontalOffset = 0;
         isInitialized = true;
+    }
+
+    void TeleportCamera()
+    {
+        Vector3 forward = carTransform.forward;
+        if (forward.sqrMagnitude < 0.01f)
+            forward = Vector3.forward;
+
+        Vector3 pos = carTransform.position - forward.normalized * initialCameraDistance;
+        pos.y = carTransform.position.y + initialCameraHeight;
+
+        transform.position = pos;
+        transform.rotation = Quaternion.LookRotation(carTransform.position - pos);
+
+        // recalc offsets
+        Vector3 off = transform.position - carTransform.position;
+        initialCameraDistance = new Vector3(off.x, 0f, off.z).magnitude;
+        initialCameraHeight = off.y;
+
+        currentHorizontalOffset = 0f;
+        previousCarPosition = carTransform.position;
+        justTeleported = true;
     }
 
     void FixedUpdate()
     {
-        // If car not found yet, keep trying
         if (carTransform == null)
         {
             FindCar();
             return;
         }
 
-        // Initialize camera position on first frame after car is found
         if (!isInitialized)
         {
             InitializeCamera();
             return;
         }
 
-        // Car movement
+        float dist = Vector3.Distance(transform.position, carTransform.position);
+
+        // absolute safety clamp
+        if (dist > maxDistanceBeforeTeleport * 2f)
+        {
+            TeleportCamera();
+            return;
+        }
+
+        if (justTeleported)
+        {
+            justTeleported = false;
+            previousCarPosition = carTransform.position;
+            return;
+        }
+
         Vector3 carMovement = carTransform.position - previousCarPosition;
         previousCarPosition = carTransform.position;
 
-        // Calculate the turning rate
-        float turnRate = Vector3.Dot(carTransform.right, carMovement.normalized);
+        float turnRate = 0f;
+        if (carMovement.sqrMagnitude > 0.0001f)
+            turnRate = Vector3.Dot(carTransform.right, carMovement.normalized);
+
         float desiredOffset = turnRate * driftAmount;
+        desiredOffset = Mathf.Clamp(desiredOffset, -20f, 20f);  // <-- HARD LIMIT
 
-        // Control the horizontal offset to position the camera sideways
-        if (Mathf.Abs(carMovement.magnitude) > 0.1f)
-        {
+        if (carMovement.magnitude > 0.1f)
             currentHorizontalOffset = Mathf.Lerp(currentHorizontalOffset, desiredOffset, followSpeed * Time.deltaTime);
-        }
         else
-        {
-            // Smoothly recenter when the car is moving slowly
             currentHorizontalOffset = Mathf.Lerp(currentHorizontalOffset, 0f, recenterSpeed * Time.deltaTime);
-        }
 
-        // Clamp the horizontal offset
         float maxOffset = initialCameraDistance * Mathf.Tan(maxHorizontalAngle * Mathf.Deg2Rad);
         currentHorizontalOffset = Mathf.Clamp(currentHorizontalOffset, -maxOffset, maxOffset);
 
-        // Calculate camera position based on the car position and offset
-        Vector3 cameraPosition = carTransform.position - carTransform.forward * initialCameraDistance;
-        cameraPosition += carTransform.right * currentHorizontalOffset;
-        cameraPosition.y += initialCameraHeight;
+        Vector3 forward = carTransform.forward;
+        Vector3 right = carTransform.right;
 
-        // Smoothly move the camera
-        transform.position = Vector3.Lerp(transform.position, cameraPosition, followSpeed * Time.deltaTime);
+        Vector3 targetPos = carTransform.position - forward * initialCameraDistance;
+        targetPos += right * currentHorizontalOffset;
+        targetPos.y = carTransform.position.y + initialCameraHeight;
 
-        // Look at the car with clamped vertical angle
-        Vector3 lookDirection = carTransform.position - transform.position;
-        float horizontalDist = new Vector2(lookDirection.x, lookDirection.z).magnitude;
-        float angle = Mathf.Atan2(lookDirection.y, horizontalDist) * Mathf.Rad2Deg;
+        // validate target
+        if (float.IsNaN(targetPos.x) || float.IsInfinity(targetPos.x))
+            return;
 
-        if (angle > maxVerticalAngle)
+        transform.position = Vector3.Lerp(transform.position, targetPos, followSpeed * Time.deltaTime);
+
+        // HARD DISTANCE FIX
+        float postDist = Vector3.Distance(transform.position, carTransform.position);
+        if (postDist > maxDistanceBeforeTeleport)
         {
-            lookDirection.y = horizontalDist * Mathf.Tan(maxVerticalAngle * Mathf.Deg2Rad);
+            transform.position = carTransform.position - forward * initialCameraDistance;
+            transform.position += Vector3.up * initialCameraHeight;
         }
 
-        Quaternion rot = Quaternion.LookRotation(lookDirection, Vector3.up);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rot, lookSpeed * Time.deltaTime);
+        Vector3 lookDir = carTransform.position - transform.position;
+        float horiz = new Vector2(lookDir.x, lookDir.z).magnitude;
+        float angle = Mathf.Atan2(lookDir.y, horiz) * Mathf.Rad2Deg;
+
+        if (angle > maxVerticalAngle)
+            lookDir.y = horiz * Mathf.Tan(maxVerticalAngle * Mathf.Deg2Rad);
+
+        transform.rotation = Quaternion.Lerp(
+            transform.rotation,
+            Quaternion.LookRotation(lookDir),
+            lookSpeed * Time.deltaTime
+        );
     }
 }

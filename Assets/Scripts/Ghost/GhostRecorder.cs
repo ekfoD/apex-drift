@@ -48,6 +48,8 @@ public class GhostRecorder : MonoBehaviour
         {
             InitializeFileName();
         }
+
+        StartRecording();
     }
 
     private void InitializeFileName()
