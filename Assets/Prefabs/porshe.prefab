@@ -488,6 +488,7 @@ GameObject:
   - component: {fileID: 8554172812247595085}
   - component: {fileID: 4644150793461982142}
   - component: {fileID: 3499670995420735817}
+  - component: {fileID: -8102562579710973029}
   m_Layer: 0
   m_Name: porshe
   m_TagString: Player
@@ -616,6 +617,19 @@ MonoBehaviour:
     handlingMultiplier: 1.2
     driftinessMultiplier: 1.25
     brakeMultiplier: 1.1
+--- !u!114 &-8102562579710973029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3292756211482810237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bf8802f68e7fe64481e89a289676de2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  matchCheckpointRotation: 1
 --- !u!1 &3399565384742675816
 GameObject:
   m_ObjectHideFlags: 0
