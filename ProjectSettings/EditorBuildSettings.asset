@@ -27,17 +27,20 @@ EditorBuildSettings:
     path: Assets/Scenes/UI/MainMeniu-Final.unity
     guid: aca710690d3ccb34ea3f689868d945e9
   - enabled: 1
+    path: Assets/Scenes/UI/CreditScene.unity
+    guid: f90d7d329a4b75249bcab1b48523c945
+  - enabled: 1
     path: Assets/Scenes/UI/ModeSelection.unity
     guid: 2fc3e36557ba83148ab3b7e283888297
-  - enabled: 1
-    path: Assets/Scenes/UI/MultiplayerCarSelection.unity
-    guid: 321120870cbb1774a9fbb53bf0602226
   - enabled: 1
     path: Assets/Scenes/UI/SingleplyerMapSelection.unity
     guid: ae43c7c6a94b08e4f9664c92200c36e1
   - enabled: 1
     path: Assets/Scenes/UI/SingleplayerCarSelection.unity
     guid: 6e1bb67b792edb5429cabcba1f31bc4d
+  - enabled: 1
+    path: Assets/Scenes/UI/MultiplayerCarSelection.unity
+    guid: 321120870cbb1774a9fbb53bf0602226
   - enabled: 1
     path: Assets/Scenes/Levels/world_01.unity
     guid: d8219b4b669e8417d9e3d57613285b5c
