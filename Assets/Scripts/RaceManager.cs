@@ -42,6 +42,20 @@ public class RaceManager : MonoBehaviour
             StartSingleplayerRace();
         }
     }
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            // Disconnect from network if in multiplayer
+            if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening)
+            {
+                NetworkManager.Singleton.Shutdown();
+            }
+        
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMeniu-Final");
+        }
+    }
+
     
     void StartSingleplayerRace()
     {
