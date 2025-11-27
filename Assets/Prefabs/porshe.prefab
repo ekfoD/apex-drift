@@ -381,7 +381,7 @@ GameObject:
   - component: {fileID: 1710162695464439163}
   m_Layer: 0
   m_Name: Body
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -506,7 +506,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 850.5568, y: 0.059999943, z: 528.0903}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3166220368021276508}
@@ -523,7 +523,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3292756211482810237}
   serializedVersion: 4
-  m_Mass: 1000
+  m_Mass: 1300
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -554,15 +554,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0fefceefe666bb4682b272ec8c5bdd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 90
+  maxSpeed: 140
   maxReverseSpeed: 45
-  accelerationMultiplier: 2
-  maxSteeringAngle: 27
+  accelerationMultiplier: 6
+  maxSteeringAngle: 30
   steeringSpeed: 0.5
-  brakeForce: 350
+  brakeForce: 450
   decelerationMultiplier: 2
   bodyMassCenter: {x: 0, y: 0, z: 0}
-  driftiness: 1.5
+  driftiness: 1.3
   frontLeftMesh: {fileID: 8232419592202450365}
   frontLeftCollider: {fileID: 4252396627359821897}
   frontRightMesh: {fileID: 8517876556499908666}

@@ -5,7 +5,7 @@ public class Timer : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI timerText;
     public float elapsedTime; // Made public so Finish can access it
-    public bool isRunning = false; // Changed to false by default (waits for countdown)
+    public bool isRunning = false;
 
     void Update()
     {
