@@ -7,7 +7,7 @@ public class CheckpointRespawn : MonoBehaviour
     [SerializeField] private bool matchCheckpointRotation = true;
 
     private KeyCode resetKey = KeyCode.R;
-    private KeyCode restartSceneKey = KeyCode.P;
+    private KeyCode restartSceneKey = KeyCode.Tab;
 
     private Rigidbody rb;
     private Transform lastCheckpoint;
