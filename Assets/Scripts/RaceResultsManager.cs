@@ -139,7 +139,7 @@ public class RaceResultsManager : MonoBehaviour
             }
             else
             {
-                resultsText.text += $"Your Time: {timeStr}\n";
+                resultsText.text += $"{timeStr}\n";
             }
             
             position++;
