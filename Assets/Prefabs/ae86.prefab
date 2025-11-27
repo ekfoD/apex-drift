@@ -752,7 +752,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8423638790551065702}
   serializedVersion: 4
-  m_Mass: 1000
+  m_Mass: 1200
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -783,15 +783,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0fefceefe666bb4682b272ec8c5bdd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 116
+  maxSpeed: 100
   maxReverseSpeed: 45
   accelerationMultiplier: 5
-  maxSteeringAngle: 30
-  steeringSpeed: 0.532
-  brakeForce: 350
+  maxSteeringAngle: 35
+  steeringSpeed: 0.6
+  brakeForce: 400
   decelerationMultiplier: 2
   bodyMassCenter: {x: 0, y: 0, z: 0}
-  driftiness: 1.5
+  driftiness: 1.4
   frontLeftMesh: {fileID: 8919402377621309359}
   frontLeftCollider: {fileID: 1207390669936446320}
   frontRightMesh: {fileID: 4132503504033733404}
