@@ -2,7 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using TMPro;
 
-public class RaceManager : NetworkBehaviour
+public class RaceManager : MonoBehaviour
 {
     public static RaceManager Instance { get; private set; }
     
@@ -68,7 +68,7 @@ public class RaceManager : NetworkBehaviour
         
         Debug.Log("Multiplayer: Spawned local car, waiting for countdown...");
         
-        if (IsServer)
+        if (NetworkManager.Singleton.IsServer)
         {
             Invoke(nameof(StartNetworkCountdown), 1f);
         }
@@ -116,10 +116,21 @@ public class RaceManager : NetworkBehaviour
         }
     }
     
+    public void StartCountdown()
+    {
+        StartCoroutine(CountdownSequence());
+    }
+    
     void StartNetworkCountdown()
     {
-        StartCountdownClientRpc();
+        // Get the NetworkBehaviour component to send RPC
+        RaceManagerNetwork networkComp = GetComponent<RaceManagerNetwork>();
+        if (networkComp != null)
+        {
+            networkComp.StartCountdownClientRpc();
+        }
     }
+
     
     [Rpc(SendTo.Everyone)]
     void StartCountdownClientRpc()
