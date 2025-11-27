@@ -12,6 +12,11 @@ public class MainMenuController : MonoBehaviour
     {
         SceneManager.LoadScene("Settings");
     }
+
+    public void LoadCredits()
+    {
+        SceneManager.LoadScene("CreditScene");
+    }
     
     public void QuitGame()
     {
