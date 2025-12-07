@@ -44,4 +44,9 @@ public class MenuNavigator : MonoBehaviour
     {
         SceneManager.LoadScene("Leaderboard"); 
     }
+
+    public void GoToTutorial()
+    {
+        SceneManager.LoadScene("world_tutorial");
+    }
 }
