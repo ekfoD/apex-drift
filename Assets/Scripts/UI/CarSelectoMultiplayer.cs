@@ -14,6 +14,7 @@ public class CarSelectorMultiplayer : MonoBehaviour
     public Button selectButton;
     public Button backButton;
     public Transform carSpawnPoint;
+    public TextMeshProUGUI selectButtonText;
     
     [Header("Modification Buttons")]
     public Button[] modificationButtons;
@@ -38,6 +39,8 @@ public class CarSelectorMultiplayer : MonoBehaviour
     private GameObject currentCarInstance;
     private string randomMap;
     private int randomMapIndex;
+    
+    private bool isSearching = false;
     
     void Start()
     {
@@ -154,13 +157,24 @@ public class CarSelectorMultiplayer : MonoBehaviour
             descriptionText.text = defaultDescription;
     }
     
-    void ConfirmSelection()
+
+
+void ConfirmSelection()
+{
+    // Prevent multiple clicks
+    if (isSearching)
     {
-        if (currentModificationIndex < 0)
-        {
-            Debug.LogWarning("Please select a modification first!");
-            return;
-        }
+        Debug.Log("Already searching, ignoring click");
+        return;
+    }
+    
+    if (currentModificationIndex < 0)
+    {
+        Debug.LogWarning("Please select a modification first!");
+        return;
+    }
+    
+    isSearching = true;
     
     PlayerPrefs.SetString("GameMode", "Multiplayer");
     PlayerPrefs.SetInt("SelectedCarIndex", currentCarIndex);
@@ -174,15 +188,37 @@ public class CarSelectorMultiplayer : MonoBehaviour
 
     Debug.Log("Starting multiplayer matchmaking...");
     
-    // Disable button to prevent multiple clicks
+    // Update button disable
     selectButton.interactable = false;
-    selectButton.GetComponentInChildren<TextMeshProUGUI>().text = "Searching...";
+    
+    // Update button text - try both methods
+
+    if (selectButtonText != null)
+    {
+        selectButtonText.text = "Searching...";
+    }
+    else
+    {
+        Debug.LogWarning("Button text component not found!");
+    }
+        
+    // Disable  buttons
+    if (leftArrow != null) leftArrow.interactable = false;
+    if (rightArrow != null) rightArrow.interactable = false;
     
     // Start matchmaking
-    MPMatchmaker.Instance.StartMatchmaking(randomMap, currentCarIndex, currentModificationIndex);
-        
-        //SceneManager.LoadScene(randomMap);
+    if (MPMatchmaker.Instance != null)
+    {
+        MPMatchmaker.Instance.StartMatchmaking(randomMap, currentCarIndex, currentModificationIndex);
     }
+    else
+    {
+        Debug.LogError("MPMatchmaker.Instance is null!");
+        isSearching = false;
+        selectButton.interactable = true;
+    }
+}
+
     
     void GoBack()
     {
