@@ -594,7 +594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxPlayers: 4
-  minPlayersToStart: 2
+  minPlayersToStart: 1
   isSearching: 0
   isInLobby: 0
 --- !u!4 &238152808
@@ -1899,6 +1899,7 @@ MonoBehaviour:
   selectButton: {fileID: 641288535}
   backButton: {fileID: 0}
   carSpawnPoint: {fileID: 811428142}
+  selectButtonText: {fileID: 0}
   modificationButtons:
   - {fileID: 586934265}
   - {fileID: 1568148368}
