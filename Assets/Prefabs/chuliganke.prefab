@@ -317,6 +317,7 @@ GameObject:
   - component: {fileID: 622227232063059063}
   - component: {fileID: -5752409322342113542}
   - component: {fileID: -4971381498721049871}
+  - component: {fileID: 4095685462584533493}
   m_Layer: 0
   m_Name: chuliganke
   m_TagString: Player
@@ -459,6 +460,27 @@ MonoBehaviour:
     handlingMultiplier: 1.2
     driftinessMultiplier: 1.25
     brakeMultiplier: 1.1
+--- !u!65 &4095685462584533493
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429979710038064447}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1927072968389041221
 GameObject:
   m_ObjectHideFlags: 0
