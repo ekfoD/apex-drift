@@ -305,6 +305,7 @@ GameObject:
   - component: {fileID: 176006392}
   - component: {fileID: 176006394}
   - component: {fileID: 176006393}
+  - component: {fileID: 176006395}
   m_Layer: 5
   m_Name: BestTimeMap4
   m_TagString: Untagged
@@ -430,6 +431,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 176006391}
   m_CullTransparentMesh: 1
+--- !u!114 &176006395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176006391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df35e160f267f504fa9f67cc3e2d8bdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bestTimeText: {fileID: 176006393}
+  prefixText: 'BEST TIME: '
+  noTimeText: 'BEST TIME: --:--'
 --- !u!1 &263937862
 GameObject:
   m_ObjectHideFlags: 0
@@ -920,6 +936,7 @@ GameObject:
   - component: {fileID: 522312784}
   - component: {fileID: 522312786}
   - component: {fileID: 522312785}
+  - component: {fileID: 522312787}
   m_Layer: 5
   m_Name: BestTimeMap5
   m_TagString: Untagged
@@ -1045,6 +1062,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 522312783}
   m_CullTransparentMesh: 1
+--- !u!114 &522312787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522312783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19608519dea42aa478609aa1536cee60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bestTimeText: {fileID: 522312785}
+  prefixText: 'BEST TIME: '
+  noTimeText: 'BEST TIME: --:--'
 --- !u!1 &734833880
 GameObject:
   m_ObjectHideFlags: 0
@@ -1251,6 +1283,7 @@ GameObject:
   - component: {fileID: 884024392}
   - component: {fileID: 884024394}
   - component: {fileID: 884024393}
+  - component: {fileID: 884024395}
   m_Layer: 5
   m_Name: BestTimeMap2
   m_TagString: Untagged
@@ -1376,6 +1409,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 884024391}
   m_CullTransparentMesh: 1
+--- !u!114 &884024395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 884024391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c58fcf7eb785d6047958ab5ab65ee238, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bestTimeText: {fileID: 884024393}
+  prefixText: 'BEST TIME: '
+  noTimeText: 'BEST TIME: --:--'
 --- !u!1 &996624418
 GameObject:
   m_ObjectHideFlags: 0
@@ -1766,6 +1814,7 @@ GameObject:
   - component: {fileID: 1569643483}
   - component: {fileID: 1569643485}
   - component: {fileID: 1569643484}
+  - component: {fileID: 1569643486}
   m_Layer: 5
   m_Name: BestTimeMap1
   m_TagString: Untagged
@@ -1891,6 +1940,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1569643482}
   m_CullTransparentMesh: 1
+--- !u!114 &1569643486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1569643482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 581c2bbb716282545af610976e9a4fc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bestTimeText: {fileID: 1569643484}
+  prefixText: 'BEST TIME: '
+  noTimeText: 'BEST TIME: --:--'
 --- !u!1 &1628393762
 GameObject:
   m_ObjectHideFlags: 0
@@ -1902,6 +1966,7 @@ GameObject:
   - component: {fileID: 1628393763}
   - component: {fileID: 1628393765}
   - component: {fileID: 1628393764}
+  - component: {fileID: 1628393766}
   m_Layer: 5
   m_Name: BestTimeMap3
   m_TagString: Untagged
@@ -2027,6 +2092,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1628393762}
   m_CullTransparentMesh: 1
+--- !u!114 &1628393766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628393762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d107502fe450fd4c9b32fba7dbe994a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bestTimeText: {fileID: 1628393764}
+  prefixText: 'BEST TIME: '
+  noTimeText: 'BEST TIME: --:--'
 --- !u!1 &1964295860
 GameObject:
   m_ObjectHideFlags: 0
