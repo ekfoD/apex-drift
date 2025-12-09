@@ -7,9 +7,16 @@ public class RaceResultsManager : MonoBehaviour
 {
     public static RaceResultsManager Instance { get; private set; }
     
-    [Header("UI")]
+    [Header("UI Panels")]
     public GameObject resultsPanel;
-    public TMP_Text resultsText;
+    public GameObject singleplayerUI;  // Assign S-Finish
+    public GameObject multiplayerUI;   // Assign M-Finish
+    
+    [Header("Singleplayer UI")]
+    public TMP_Text singleplayerTimeText;  // Assign Text (TMP) under S-Finish
+    
+    [Header("Multiplayer UI")]
+    public TMP_Text multiplayerResultsText;  // You'll need to add a text element under M-Finish
     
     private Dictionary<string, float> finishTimes = new Dictionary<string, float>();
     private bool localPlayerFinished = false;
@@ -32,6 +39,10 @@ public class RaceResultsManager : MonoBehaviour
             resultsPanel.SetActive(false);
         }
         
+        // Hide both UIs at start
+        if (singleplayerUI != null) singleplayerUI.SetActive(false);
+        if (multiplayerUI != null) multiplayerUI.SetActive(false);
+        
         // Get local player name
         bool isMultiplayer = NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening;
         if (isMultiplayer)
@@ -50,7 +61,6 @@ public class RaceResultsManager : MonoBehaviour
         
         Debug.Log($"ReportFinishTime called: {playerName} - {time}s, IsMultiplayer: {isMultiplayer}");
         
-        // Mark if this is the local player finishing
         if (playerName == localPlayerName)
         {
             localPlayerFinished = true;
@@ -92,69 +102,95 @@ public class RaceResultsManager : MonoBehaviour
     
     void UpdateResultsUI()
     {
-        Debug.Log($"UpdateResultsUI called. Local player finished: {localPlayerFinished}");
-        
         bool isMultiplayer = NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening;
         
-        // ONLY show results panel if local player has finished OR singleplayer
+        // Only show results if local player finished OR singleplayer
         if (!isMultiplayer || localPlayerFinished)
         {
             if (resultsPanel != null)
             {
                 resultsPanel.SetActive(true);
-                Debug.Log("Results panel activated for local player");
             }
-            else
-            {
-                Debug.LogError("Results panel is null!");
-            }
-        }
-        else
-        {
-            Debug.Log("Other player finished, but not showing results yet (local player still racing)");
+            
+            // Show correct UI panel
+            if (singleplayerUI != null) singleplayerUI.SetActive(!isMultiplayer);
+            if (multiplayerUI != null) multiplayerUI.SetActive(isMultiplayer);
         }
         
-        if (resultsText == null)
-        {
-            Debug.LogError("Results text is null!");
-            return;
-        }
-        
-        // Build results text (even if not showing yet, so it's ready when we finish)
-        
-        // Sort by time
+        // Sort results by time (fastest first)
         List<KeyValuePair<string, float>> sortedResults = new List<KeyValuePair<string, float>>(finishTimes);
         sortedResults.Sort((a, b) => a.Value.CompareTo(b.Value));
         
-        int position = 1;
-        foreach (var result in sortedResults)
+        if (isMultiplayer)
         {
-            int minutes = Mathf.FloorToInt(result.Value / 60);
-            int seconds = Mathf.FloorToInt(result.Value % 60);
-            string timeStr = string.Format("{0:00}:{1:00}", minutes, seconds);
+            UpdateMultiplayerUI(sortedResults);
+        }
+        else
+        {
+            UpdateSingleplayerUI(sortedResults);
+        }
+    }
+    
+    void UpdateSingleplayerUI(List<KeyValuePair<string, float>> results)
+    {
+        if (singleplayerTimeText == null) return;
+        
+        if (results.Count > 0)
+        {
+            float time = results[0].Value;
+            int minutes = Mathf.FloorToInt(time / 60);
+            int seconds = Mathf.FloorToInt(time % 60);
+            int milliseconds = Mathf.FloorToInt((time % 1) * 100);
             
-            if (isMultiplayer)
-            {
-                resultsText.text += $"{position}. {result.Key} - {timeStr}\n";
-            }
-            else
-            {
-                resultsText.text += $"{timeStr}\n";
-            }
+            singleplayerTimeText.text = $"Your Time: {minutes:00}:{seconds:00}.{milliseconds:00}";
+        }
+    }
+    
+    void UpdateMultiplayerUI(List<KeyValuePair<string, float>> results)
+    {
+        if (multiplayerResultsText == null) return;
+        
+        multiplayerResultsText.text = "";
+        
+        int expectedPlayers = NetworkManager.Singleton.ConnectedClients.Count;
+        int position = 1;
+        
+        // Show rankings
+        foreach (var result in results)
+        {
+            float time = result.Value;
+            int minutes = Mathf.FloorToInt(time / 60);
+            int seconds = Mathf.FloorToInt(time % 60);
+            int milliseconds = Mathf.FloorToInt((time % 1) * 100);
+            string timeStr = $"{minutes:00}:{seconds:00}.{milliseconds:00}";
             
+            string positionStr = GetPositionString(position);
+            string playerIndicator = (result.Key == localPlayerName) ? " (You)" : "";
+            
+            multiplayerResultsText.text += $"{positionStr}  {result.Key}{playerIndicator}  {timeStr}\n";
             position++;
         }
         
-        // Show waiting message if multiplayer and we've finished but others haven't
-        if (isMultiplayer && localPlayerFinished)
+        // Show waiting message
+        int playersRemaining = expectedPlayers - finishTimes.Count;
+        if (playersRemaining > 0)
         {
-            int expectedPlayers = NetworkManager.Singleton.ConnectedClients.Count;
-            if (finishTimes.Count < expectedPlayers)
-            {
-                resultsText.text += $"\nWaiting for {expectedPlayers - finishTimes.Count} player(s)...";
-            }
+            multiplayerResultsText.text += $"\nWaiting for {playersRemaining} player(s)...";
         }
-        
-        Debug.Log($"Results text updated: {resultsText.text}");
+        else
+        {
+            multiplayerResultsText.text += "\nAll players finished!";
+        }
+    }
+    
+    string GetPositionString(int position)
+    {
+        switch (position)
+        {
+            case 1: return "1st";
+            case 2: return "2nd";
+            case 3: return "3rd";
+            default: return $"{position}th";
+        }
     }
 }
