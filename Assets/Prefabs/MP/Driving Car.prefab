@@ -228,6 +228,9 @@ MonoBehaviour:
   recenterSpeed: 0.31
   maxVerticalAngle: 45.2
   maxHorizontalAngle: 86.5
+  maxDistanceBeforeTeleport: 100
+  defaultCameraDistance: 10
+  defaultCameraHeight: 5
 --- !u!1 &759811370146866108
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,8 +449,8 @@ MonoBehaviour:
   steeringSpeed: 0.532
   brakeForce: 350
   decelerationMultiplier: 2
-  handbrakeDriftMultiplier: 5
   bodyMassCenter: {x: 0, y: 0, z: 0}
+  driftiness: 1.5
   frontLeftMesh: {fileID: 6310353954625920850}
   frontLeftCollider: {fileID: 6806496826113976685}
   frontRightMesh: {fileID: 915699733935600483}
@@ -468,7 +471,6 @@ MonoBehaviour:
   tireScreechSound: {fileID: 1557565751860881945}
   carSpeed: 0
   isDrifting: 0
-  isTractionLocked: 0
 --- !u!65 &3043250204716887199
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -502,7 +504,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bf8802f68e7fe64481e89a289676de2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPoint: {fileID: 0}
   matchCheckpointRotation: 1
 --- !u!81 &1859714981517501278
 AudioListener:
@@ -526,7 +527,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carTransform: {fileID: 5969766045090022050}
   recordInterval: 0.05
-  ghostFileName: ghost_data.json
 --- !u!1 &2813044687501167726
 GameObject:
   m_ObjectHideFlags: 0
@@ -886,7 +886,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: d18d8335fc1c540179a350bab47e741b, type: 3}
+  m_Resource: {fileID: 8300000, guid: b4736caa735574e8592c4456a73f5096, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
